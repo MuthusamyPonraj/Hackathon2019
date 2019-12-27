@@ -1,0 +1,230 @@
+﻿
+@import "../../CommonStack";
+@import "../../StackColors";
+
+
+@include common-features;
+@include fontface;
+@include common-styles;
+@include buttons;
+@include Sliders;
+@include Testimonials;
+@include table;
+
+body {
+    background: #efefef;
+}
+
+.navbar-inverse {
+    background-color: #416187;
+    border-color: #416187;
+}
+
+.description {
+    margin-top:100px;
+    margin-bottom: 25px;
+    text-align: center;
+}
+.conversion-types {
+ 
+    .feature {
+        background: white;
+        hr {
+            max-width: 15%;
+            margin: 1em auto;
+            border-top: 1px solid #ea6f17;
+        }
+    h4 {
+        pointer-events: none;
+        color: black;
+        text-align: center;
+    }
+    .lead {
+        text-align: center;
+        font-size: 13px;
+    }
+    img {
+        width: 25%;
+        display: block;
+        margin: 10px auto;
+    }
+    .html-image {
+        width: 19%;
+    }
+    .learnmore {
+        text-align: right;
+        font-size: 14px;
+        img {
+            width: 20px;
+            display: inline-block;
+        }
+    }
+}
+}
+
+.conversion-detail {
+    padding: 43px;
+    background: white;
+    border-radius: 4px;
+}
+
+#Page-header {
+    color: black;
+}
+
+.boxed {
+    background-color: #fff;
+    padding: 2.714em 2em 3em;   
+    height: 340px;  
+-webkit-box-orient: vertical;
+-webkit-box-direction: normal;
+-ms-flex-direction: column;
+flex-direction: column;
+transition: all .2s ease-out;
+will-change: transform;
+    &:hover {
+        box-shadow: 0px 0px 25px 0px rgba(0, 0, 0, 0.06);
+        transform: translateY(-10px);          
+    }
+}
+
+#logFileUploadSubmitBtn {
+    background-color: #0073dc;
+    color: white;
+    outline: none;
+    text-decoration: none;
+    font-size: 13px;
+    font-weight: bold;
+    &:hover {
+        background-color: #0a98ff;
+    }
+}
+
+#file-type-list {
+    color: #333333;
+    background-color: #ffffff;
+    border-color: #cccccc;
+    padding: 6px;
+    border-radius: 4px;
+}
+
+.carousel-control .icon-prev, .carousel-control .icon-next, .carousel-control .glyphicon-chevron-left, .carousel-control .glyphicon-chevron-right {
+    top: 23%;
+    color: #416187;
+}
+
+.description-section {
+    color: black;
+    margin-top: 50px;
+    li {
+        padding-top: 8px;
+    }
+}
+
+.col-centered {
+    float: none;
+    margin: 0 auto 50px;
+    background: white;
+    border-radius: 4px;
+}
+
+.carousel-control { 
+    width: 8%;
+    width: 0px;
+}
+.carousel-control.left,
+.carousel-control.right { 
+    margin-right: 5px;
+    margin-left: -11px; 
+    background-image: none;
+    opacity: 1;
+}
+.carousel-control > a > span {
+    color: white;
+	  font-size: 29px !important;
+}
+
+.carousel-col { 
+    position: relative; 
+    min-height: 1px; 
+    padding: 5px; 
+    float: left;
+ }
+
+ .active > div { display:none; }
+ .active > div:first-child { display:block; }
+
+/*xs*/
+@media (max-width: 767px) {
+  .carousel-inner .active.left { left: -50%; }
+  .carousel-inner .active.right { left: 50%; }
+	.carousel-inner .next        { left:  50%; }
+	.carousel-inner .prev		     { left: -50%; }
+  .carousel-col                { width: 50%; }
+	.active > div:first-child + div { display:block; }
+}
+
+/*sm*/
+@media (min-width: 768px) and (max-width: 991px) {
+  .carousel-inner .active.left { left: -50%; }
+  .carousel-inner .active.right { left: 50%; }
+	.carousel-inner .next        { left:  50%; }
+	.carousel-inner .prev		     { left: -50%; }
+  .carousel-col                { width: 50%; }
+	.active > div:first-child + div { display:block; }
+}
+
+/*md*/
+@media (min-width: 992px) and (max-width: 1199px) {
+  .carousel-inner .active.left { left: -33%; }
+  .carousel-inner .active.right { left: 33%; }
+	.carousel-inner .next        { left:  33%; }
+	.carousel-inner .prev		     { left: -33%; }
+  .carousel-col                { width: 33%; }
+	.active > div:first-child + div { display:block; }
+  .active > div:first-child + div + div { display:block; }
+}
+
+/*lg*/
+@media (min-width: 1200px) {
+  .carousel-inner .active.left { left: -25%; }
+  .carousel-inner .active.right{ left:  25%; }
+	.carousel-inner .next        { left:  25%; }
+	.carousel-inner .prev		     { left: -25%; }
+  .carousel-col                { width: 25%; }
+	.active > div:first-child + div { display:block; }
+  .active > div:first-child + div + div { display:block; }
+	.active > div:first-child + div + div + div { display:block; }
+}
+
+#carousel {
+img {
+    width: 90%;
+    height: 90%;
+}
+.html-pdf {
+    width: 80%;
+    height: 80%;
+}
+}
+
+.glyphicon-chevron-left:before, .glyphicon-chevron-right:before {
+    font-size: 16px;
+}
+
+.html-pdf-section {
+    margin-top: 5px;
+}
+
+.word-pdf-section {
+    margin-top: 10px;
+}
+
+.word-html-section {
+    margin-top: 10px;
+}
+
+.word-epub-section {
+    margin-top: 15px;
+}
+

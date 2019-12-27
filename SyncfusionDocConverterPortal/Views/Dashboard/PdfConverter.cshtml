@@ -1,0 +1,155 @@
+﻿@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewBag.Title = "PDF Converter";
+}
+
+<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.5/jquery.min.js"></script>
+<script src="http://code.jquery.com/jquery-3.2.1.min.js"></script>
+<script src="http://ajax.aspnetcdn.com/ajax/jquery.validate/1.19.0/jquery.validate.min.js"></script>
+
+
+<style>
+    #Page-header{
+        color:blue;
+    }
+
+</style>
+<link href="~/Content/Stylesheets/Modules/Dashboard/Index.css" rel="stylesheet" />
+
+<div class="page-title text-center" style="margin-top:55px;">
+    <h3 id="Page-header">Online PDF Converter</h3>
+</div>
+<div class="col-lg-offset-3 col-md-6 col-sm-6 col-xs-6 col-lg-6 conversion-detail">
+<form class="form-horizontal" id="bulkLogImportForm" role="form" method="post" action="~/file/upload/" enctype="multipart/form-data">
+        <div class="form-group">
+            <div class="col-lg-6" style="padding: 0">
+                <input type="button" class="btn btn-default" id="brwbtn" style="height:35px;padding-top:5.5px;width: 100%" value="Choose File"
+                       onclick="javascript:document.getElementById('UploadBulkLog').click();">
+                <input type="file" id="UploadBulkLog" style="margin-left:-20px;visibility: hidden;" name="UploadBulkLog" onchange="uploadBulkLogFile(this);" />
+                <span id="uploadLog" style="width:350px;position:absolute;"></span>
+            </div>
+            <div class="col-lg-6" style="padding: 0">
+                @Html.DropDownList("file-type-list",
+                     new[]{
+                           new SelectListItem { Text = ".doc", Value=".doc" },
+                           new SelectListItem { Text = ".xls", Value=".xls" },
+                           new SelectListItem { Text = ".html", Value=".html" },
+                           new SelectListItem { Text = ".pptx", Value=".ppt" },
+                           },
+                     new { @class = "content-big", data_live_search = "true", data_selected_text_format = "count>1",
+                         @onchange = "dropdownValueChange(this.value)", id = "file-type-list", @NAME = "TypeList" })
+                    </div>
+        </div>
+    </form>
+    
+
+    <label style="margin-left:-18px;float:left;margin-top:32px;color:red;" class="errorMessageColor" id="bulkLogImportError"></label>
+     <button type="submit" disabled="disabled" id="logFileUploadSubmitBtn" class="btn-flat btn pull-right">Convert</button>
+</div>
+<div class="col-md-12 col-sm-12 col-xs-12 col-lg-12" style="margin-top:300px">
+    <div class="col-lg-6 image-section">
+        <img src="~/Content/Images/pdf-conversion.png" alt="PDF conversion"style="float: right" />
+    </div>
+    <div class="col-lg-6 description-section">
+        How to convert to PDF from other file types:
+        <ol>
+            <li>Upload your file to our online PDF converter.</li>
+            <li>The tool will instantly upload and transform the file into a PDF.</li>
+            <li>Download the PDF to your device.</li>
+        </ol>
+    </div>
+</div>
+
+<script>
+
+    var bulkLogImportUploadIsInProgress = false;
+
+    function uploadBulkLogFile(file) {
+        bulkLogImportError.innerHTML = '';
+        var dropdownValue = document.getElementById('file-type-list').value;
+        if(dropdownValue == '.htm')
+            var dropdownValuewithExt = document.getElementById('file-type-list').value + "l";
+        else
+            var dropdownValuewithExt = document.getElementById('file-type-list').value + "x";
+        if (file.files && file.files[0]) {
+            if (TestFileType(file.files[0].name, [dropdownValue,dropdownValuewithExt])) {
+                bulkLogImportError.innerHTML = '';
+                logFileUploadSubmitBtn.disabled = false;
+            }else {
+                logFileUploadSubmitBtn.disabled = true;
+                bulkLogImportError.innerHTML = 'Invalid Format.';
+            }
+        }
+    }
+
+    function dropdownValueChange(dropdownValue) {
+        bulkLogImportError.innerHTML = '';
+        $("#UploadBulkLog").val(null);
+        logFileUploadSubmitBtn.disabled = true;
+        $('#uploadLog').html('');
+    }
+
+    function TestFileType(fileName, fileTypes) {
+        if (!fileName) return;
+        dots = fileName.split(".");
+        fileType = "." + dots[dots.length - 1];
+        return (fileTypes.join(".").indexOf(fileType) != -1) ?
+        true :
+        false;
+    }
+
+    $('input[type=file]').change(function (e) {
+        $('#uploadLog').html($('input[type=file]').val().replace(/^.*[\\\/]/, ''));
+        var maxLength = 50;
+        var myStr = $("#uploadLog").text();
+        if ($.trim(myStr).length > maxLength) {
+            var newStr = myStr.substring(0, maxLength) + "...";
+            $('#uploadLog').html(newStr);
+            document.getElementById('uploadLog').setAttribute('title', myStr);
+        }
+        else {
+            $("#uploadLog").removeAttr("title");
+        }
+
+    });
+
+
+    $('#logFileUploadSubmitBtn').click(function (e) {
+        e.preventDefault();
+        var data;
+        if (bulkLogImportUploadIsInProgress === true)
+            return false;
+        data = new FormData();
+        data.append('file', $('#UploadBulkLog')[0].files[0]);
+        bulkLogImportUploadIsInProgress = true;
+        bulkLogImportError.innerHTML = '';
+        $.ajax({
+            type: 'POST',
+            url: $('#bulkLogImportForm').attr('action'),
+            data: data,
+            processData: false,
+            contentType: false,
+            error: function (response) {
+                bulkLogImportError = "An error occurred while processing. Please try again later.";
+            },
+            success: function (response) {
+                if (response.status == true) {
+                    bulkLogImportError.innerHTML = response.data;
+                    $("#bulkLogImportError").css("display", "block");
+                    if (response.filename.length > 0)
+                        location.replace(window.location.origin + "/" + response.filename)
+                }
+                else {
+                    bulkLogImportError.innerHTML = response.data;                   
+                    $("#bulkLogImportError").css("display", "block");
+                    bulkLogImportUploadIsInProgress = false;
+                }
+
+            },
+            complete: function (data) {
+                bulkLogImportUploadIsInProgress = false;
+            }
+        });
+    });
+
+</script>

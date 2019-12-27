@@ -1,0 +1,38 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Syncfusion Document Conversion</title>
+    @Styles.Render("~/Content/css")
+    @Scripts.Render("~/bundles/modernizr")
+    <link rel="icon" href="https://applian.com/img/boxes/RC-256@2x.png" type="image/x-icon" />
+</head>
+<body>
+    <div class="navbar navbar-inverse navbar-fixed-top">
+        <div class="container">
+            <div class="navbar-header">
+                <a class="sync-logo-img" title="Syncfusion" href="/"></a>
+                <h3 class="title">Document Conversion</h3>
+            </div>
+            <div class="navbar-collapse collapse">
+                <ul class="nav navbar-nav">
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <div class="container body-content">
+        <div class="row">
+            @RenderBody()
+            <div class="span12 footer" style="padding: 50px 0 0;position: relative;text-align:right;bottom: 0;float: right;width: 100%;">
+                <a class="copyright" target="_blank" href="https://www.syncfusion.com/copyright?_ga=2.182314337.736491991.1577336142-341245189.1568832366">Copyright © 2001 - @DateTime.Now.Year Syncfusion Inc. All Rights Reserved</a>
+            </div>
+        </div>
+    </div>
+
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/bootstrap")
+    @RenderSection("scripts", required: false)
+</body>
+</html>
